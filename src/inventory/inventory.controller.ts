@@ -4,7 +4,9 @@ import {
   Controller,
   InternalServerErrorException,
   Put,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/utils/auth.guard';
 import { addToInventoryDto } from './inventory.dto';
 import { InventoryService } from './inventory.service';
 
@@ -13,6 +15,7 @@ export class InventoryController {
   constructor(private readonly _inventoryService: InventoryService) {}
 
   @Put('/add')
+  @UseGuards(AuthGuard)
   async addToInventory(@Body() request: addToInventoryDto): Promise<string> {
     try {
       if (!request.assets) {
